@@ -1,13 +1,13 @@
 using System.Text.Json.Serialization;
-using InscripcionExamenes.Models;
+using VentaProductos.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<Context>(opt => 
+builder.Services.AddDbContext<Context>(opt =>
     opt.UseSqlServer(
-        builder.Configuration.GetConnectionString("VentaProductos") 
+        builder.Configuration.GetConnectionString("VentaProductos")
         ?? throw new InvalidOperationException
         ("Connection string 'VentaProductos' not found.")));
 

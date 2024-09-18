@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Venta de Productos</title>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
   <link rel="stylesheet" href="./css/site.css">
 </head>
 
@@ -25,6 +26,9 @@
           </li>
           <li class="nav-item">
             <a class="nav-link active" href="Index.html">Productos</a>
+          </li>
+          <li class="nav-item"></li>
+          <a class="nav-link active" href="clientes.html">Clientes</a>
           </li>
         </ul>
       </div>
@@ -76,6 +80,7 @@
 
               <label for="PrecioCompra" class="form-label">Precio Compra</label>
               <input type="number" id="PrecioCompra" class="form-control">
+              <p id="error" hidden style="color: red;"></p>
             </div>
           </div>
           <div class="modal-footer">
@@ -111,26 +116,26 @@
               <input type="number" id="PrecioCompraEditar" class="form-control">
             </div>
           </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-primary" onclick="EditarProducto();">Guardar</button>
-            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" onclick="EditarProducto();">Guardar</button>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
 
 
 
-    <script src="./js/productos.js"></script>
-    <script src="./lib/bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="./js/productos.js"></script>
+  <script src="./lib/bootstrap/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
-    <script type="text/javascript">
-      window.onload = ObtenerProductos();
-    </script>
+  <script type="text/javascript">
+    window.onload = ObtenerProductos();
+  </script>
 </body>
 
 </html>
