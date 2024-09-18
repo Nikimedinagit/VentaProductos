@@ -1,8 +1,8 @@
 function ObtenerProductos() {
     fetch('https://localhost:7245/Productos')
-    .then(response => response.json())
-    .then(data => MostrarProductos(data))
-    .catch(error => console.log("No se pudo acceder al servicio.", error));
+        .then(response => response.json())
+        .then(data => MostrarProductos(data))
+        .catch(error => console.log("No se pudo acceder al servicio.", error));
 }
 
 function MostrarProductos(data) {
@@ -65,10 +65,18 @@ function MostrarProductos(data) {
 // }
 
 function CrearProducto() {
-    // var nombreProd = document.getElementById("Nombre").value;
-    // if (nombreProd == "" || nombreProd == null) {
-    //     return mensajesError('#error', null, "Por favor ingrese un Nombre para el Producto.");
-    // }
+    var nombreProd = document.getElementById("Nombre").value;
+    if (nombreProd == "" || nombreProd == null) {
+        return mensajesError('#error', null, "Por favor ingrese un Nombre para el Producto.");
+    };
+    var precioVenta = document.getElementById("PrecioVenta").value;
+    if (precioVenta == "" || precioVenta == null) {
+        return mensajesError('#error', null, "Por favor ingrese un Precio Ventas.");
+    };
+    var precioCompra = document.getElementById("PrecioCompra").value;
+    if (precioCompra == "" || precioCompra == null) {
+        return mensajesError('#error', null, "Por favor ingrese un Precio Compra.");
+    };
 
     let producto = {
         nombreProducto: document.getElementById("Nombre").value,
@@ -82,26 +90,26 @@ function CrearProducto() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-              },
+            },
             body: JSON.stringify(producto)
         }
     )
-    .then(response => response.json())
-    .then(data =>{
-        // if(data.status == undefined){
-            document.getElementById("Nombre").value = "";
-            document.getElementById("Cantidad").value = 0;
-            document.getElementById("PrecioVenta").value = 0;
-            document.getElementById("PrecioCompra").value = 0;
+        .then(response => response.json())
+        .then(data => {
+            if (data.status == undefined) {
+                document.getElementById("Nombre").value = "";
+                document.getElementById("Cantidad").value = 0;
+                document.getElementById("PrecioVenta").value = 0;
+                document.getElementById("PrecioCompra").value = 0;
 
-            $('#modalAgregarProductos').modal('hide');
-            ObtenerProductos();
-        // } else {
-        //     mensajesError('#error', data);
-        // }
-            
-    })
-    .catch(error => console.log("Hubo un error al guardar el Producto nuevo, verifique el mensaje de error: ", error))
+                $('#modalAgregarProductos').modal('hide');
+                ObtenerProductos();
+            } else {
+                mensajesError('#error', data);
+            }
+
+        })
+        .catch(error => console.log("Hubo un error al guardar el Producto nuevo, verifique el mensaje de error: ", error))
 }
 
 
@@ -114,31 +122,31 @@ function EliminarProducto(id) {
 
 function EliminarSi(id) {
     fetch(`https://localhost:7245/Productos/${id}`,
-    {
-        method: "DELETE"
-    })
-    .then(() => {
-        ObtenerProductos();
-    })
-    .catch(error => console.error("No se pudo acceder a la api, verifique el mensaje de error: ", error))
+        {
+            method: "DELETE"
+        })
+        .then(() => {
+            ObtenerProductos();
+        })
+        .catch(error => console.error("No se pudo acceder a la api, verifique el mensaje de error: ", error))
 }
 
 
 function BuscarProductoId(id) {
-    fetch(`https://localhost:7245/Productos/${id}`,{
+    fetch(`https://localhost:7245/Productos/${id}`, {
         method: "GET"
     })
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById("IdProducto").value = data.id;
-        document.getElementById("NombreEditar").value = data.nombreProducto;
-        document.getElementById("CantidadEditar").value = data.cantidad;
-        document.getElementById("PrecioVentaEditar").value = data.precioVenta;
-        document.getElementById("PrecioCompraEditar").value = data.precioCompra;
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("IdProducto").value = data.id;
+            document.getElementById("NombreEditar").value = data.nombreProducto;
+            document.getElementById("CantidadEditar").value = data.cantidad;
+            document.getElementById("PrecioVentaEditar").value = data.precioVenta;
+            document.getElementById("PrecioCompraEditar").value = data.precioCompra;
 
-        $('#modalEditarProductos').modal('show');
-    })
-    .catch(error => console.error("No se pudo acceder a la api, verifique el mensaje de error: ", error));
+            $('#modalEditarProductos').modal('show');
+        })
+        .catch(error => console.error("No se pudo acceder a la api, verifique el mensaje de error: ", error));
 }
 
 
@@ -160,7 +168,7 @@ function EditarProducto() {
         },
         body: JSON.stringify(editarProducto)
     })
-    .then(data => {
+        .then(data => {
 
             document.getElementById("IdProducto").value = 0;
             document.getElementById("NombreEditar").value = "";
@@ -169,29 +177,29 @@ function EditarProducto() {
             document.getElementById("PrecioCompraEditar").value = 0;
             $('#modalEditarProductos').modal('hide');
             ObtenerProductos();
-    })
-    .catch(error => console.error("No se pudo acceder a la api, verifique el mensaje de error: ", error))
+        })
+        .catch(error => console.error("No se pudo acceder a la api, verifique el mensaje de error: ", error))
 }
 
 
-// function mensajesError(id, data, mensaje) {
-//     $(id).empty();
-//     if (data != null) {
-//         $.each(data.errors, function(index, item) {
-//             $(id).append(
-//                 "<ol>",
-//                 "<li>" + item + "</li>",
-//                 "</ol>"
-//             )
-//         })
-//     }
-//     else{
-//         $(id).append(
-//             "<ol>",
-//             "<li>" + mensaje + "</li>",
-//             "</ol>"
-//         )
-//     }
-    
-//     $(id).attr("hidden", false);
-// }
+function mensajesError(id, data, mensaje) {
+    $(id).empty();
+    if (data != null) {
+        $.each(data.errors, function (index, item) {
+            $(id).append(
+                "<ol>",
+                "<li>" + item + "</li>",
+                "</ol>"
+            )
+        })
+    }
+    else {
+        $(id).append(
+            "<ol>",
+            "<li>" + mensaje + "</li>",
+            "</ol>"
+        )
+    }
+
+    $(id).attr("hidden", false);
+}
