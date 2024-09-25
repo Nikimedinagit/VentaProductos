@@ -65,53 +65,59 @@ function MostrarProductos(data) {
 // }
 
 function CrearProducto() {
+
     var nombreProd = document.getElementById("Nombre").value;
     if (nombreProd == "" || nombreProd == null) {
-        return mensajesError('#error', null, "Por favor ingrese un Nombre para el Producto.");
-    };
+        return mensajesError('#error', null, "Por favor ingrese un Nombre.");
+    }
+
+    var cantidad = document.getElementById("Cantidad").value;
+    if (cantidad == "" || cantidad == null) {
+        return mensajesError('#error', null, "Por favor ingrese una Cantidad.");
+    }
+
     var precioVenta = document.getElementById("PrecioVenta").value;
     if (precioVenta == "" || precioVenta == null) {
-        return mensajesError('#error', null, "Por favor ingrese un Precio Ventas.");
-    };
+        return mensajesError('#error', null, "Por favor ingrese un Precio de Venta.");
+    }
+
     var precioCompra = document.getElementById("PrecioCompra").value;
     if (precioCompra == "" || precioCompra == null) {
-        return mensajesError('#error', null, "Por favor ingrese un Precio Compra.");
-    };
+        return mensajesError('#error', null, "Por favor ingrese un Precio de Compra.");
+    }
 
     let producto = {
-        nombreProducto: document.getElementById("Nombre").value,
-        cantidad: document.getElementById("Cantidad").value,
-        precioVenta: document.getElementById("PrecioVenta").value,
-        precioCompra: document.getElementById("PrecioCompra").value,
+        nombreProducto: nombreProd,
+        cantidad: parseInt(cantidad),
+        precioVenta: parseFloat(precioVenta),
+        precioCompra: parseFloat(precioCompra)
     };
 
-    fetch('https://localhost:7245/Productos',
-        {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(producto)
-        }
-    )
+    fetch('https://localhost:7245/Productos', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(producto)
+    })
         .then(response => response.json())
         .then(data => {
             if (data.status == undefined) {
                 document.getElementById("Nombre").value = "";
-                document.getElementById("Cantidad").value = 0;
-                document.getElementById("PrecioVenta").value = 0;
-                document.getElementById("PrecioCompra").value = 0;
+                document.getElementById("Cantidad").value = "";
+                document.getElementById("PrecioVenta").value = "";
+                document.getElementById("PrecioCompra").value = "";
 
+                $('#error').empty();
+                $('#error').attr("hidden", true);
                 $('#modalAgregarProductos').modal('hide');
                 ObtenerProductos();
             } else {
                 mensajesError('#error', data);
             }
-
         })
-        .catch(error => console.log("Hubo un error al guardar el Producto nuevo, verifique el mensaje de error: ", error))
+        .catch(error => console.log("Hubo un error al guardar el Producto nuevo, verifique el mensaje de error: ", error));
 }
-
 
 function EliminarProducto(id) {
     var siElimina = confirm("¿Esta seguro de borrar este producto?.")
@@ -131,7 +137,6 @@ function EliminarSi(id) {
         .catch(error => console.error("No se pudo acceder a la api, verifique el mensaje de error: ", error))
 }
 
-
 function BuscarProductoId(id) {
     fetch(`https://localhost:7245/Productos/${id}`, {
         method: "GET"
@@ -149,9 +154,35 @@ function BuscarProductoId(id) {
         .catch(error => console.error("No se pudo acceder a la api, verifique el mensaje de error: ", error));
 }
 
-
 function EditarProducto() {
     let idProducto = document.getElementById("IdProducto").value;
+
+    var nombreProd = document.getElementById("NombreEditar").value;
+    if (nombreProd == "" || nombreProd == null) {
+        return mensajesError('#errorEditar', null, "Por favor ingrese un Nombre.");
+    }
+    if (nombreProd.length < 3 || nombreProd.length > 100) {
+        return mensajesError('#errorEditar', null, "El Nombre debe contener entre 3 y 100 caracteres.");
+    }
+    if (!/^[A-Z]/.test(nombreProd)) {
+        return mensajesError('#errorEditar', null, "El Nombre debe comenzar con una letra mayúscula.");
+    }
+
+
+    var cantidad = document.getElementById("CantidadEditar").value;
+    if (cantidad == "" || cantidad == null) {
+        return mensajesError('#errorEditar', null, "Por favor ingrese una Cantidad.");
+    }
+
+    var precioVenta = document.getElementById("PrecioVentaEditar").value;
+    if (precioVenta == "" || precioVenta == null) {
+        return mensajesError('#errorEditar', null, "Por favor ingrese un Precio de Venta.");
+    }
+
+    var precioCompra = document.getElementById("PrecioCompraEditar").value;
+    if (precioCompra == "" || precioCompra == null) {
+        return mensajesError('#errorEditar', null, "Por favor ingrese un Precio de Compra.");
+    }
 
     let editarProducto = {
         id: idProducto,
@@ -169,18 +200,19 @@ function EditarProducto() {
         body: JSON.stringify(editarProducto)
     })
         .then(data => {
-
             document.getElementById("IdProducto").value = 0;
             document.getElementById("NombreEditar").value = "";
             document.getElementById("CantidadEditar").value = 0;
             document.getElementById("PrecioVentaEditar").value = 0;
             document.getElementById("PrecioCompraEditar").value = 0;
+
+            $('#errorEditar').empty();
+            $('#errorEditar').attr("hidden", true);
             $('#modalEditarProductos').modal('hide');
             ObtenerProductos();
         })
         .catch(error => console.error("No se pudo acceder a la api, verifique el mensaje de error: ", error))
 }
-
 
 function mensajesError(id, data, mensaje) {
     $(id).empty();

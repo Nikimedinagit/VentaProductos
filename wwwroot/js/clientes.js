@@ -49,46 +49,54 @@ function MostrarClientes(data) {
 }
 
 function CrearClientes() {
-    var dnicliente = document.getElementById("Dni").value;
-    if (dnicliente == "" || dnicliente == null) {
-        return mensajeerror('#error', null, "Por favor ingrese un Dni para el Cliente.")
+    var nombreCliente = document.getElementById("NombreCliente").value;
+    if (nombreCliente == "" || nombreCliente == null) {
+        return mensajeerror('#error', null, "Por favor ingrese un Nombre.");
     }
+
+    var apellidoCliente = document.getElementById("ApellidoCliente").value;
+    if (apellidoCliente == "" || apellidoCliente == null) {
+        return mensajeerror('#error', null, "Por favor ingrese un Apellido.");
+    }
+
+    var dnicliente = document.getElementById("Dni").value;
+    if (dnicliente == "" || dnicliente == null || !/^\d{8}$/.test(dnicliente)) {
+        return mensajeerror('#error', null, "Por favor ingrese un DNI de 8 dígitos.");
+    }
+
     var saldocliente = document.getElementById("Saldo").value;
     if (saldocliente == "" || saldocliente == null) {
-        return mensajeerror('#error', null, "Por favor ingrese un Saldo Positivo.")
+        return mensajeerror('#error', null, "Por favor ingrese un Saldo.");
     }
+
     let cliente = {
-        nombreCliente: document.getElementById("NombreCliente").value,
-        apellidoCliente: document.getElementById("ApellidoCliente").value,
+        nombreCliente: nombreCliente,
+        apellidoCliente: apellidoCliente,
         dni: parseInt(dnicliente),
         saldo: parseFloat(saldocliente)
     };
 
-    fetch('https://localhost:7245/Clientes',
-        {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(cliente)
-        }
-    )
+    fetch('https://localhost:7245/Clientes', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cliente)
+    })
         .then(response => response.json())
         .then(data => {
             if (data.status == undefined) {
-                document.getElementById("NombreCliente").value = "",
-                    document.getElementById("ApellidoCliente").value = "";
-                document.getElementById("Dni").value = 0;
-                document.getElementById("Saldo").value = 0;
+                document.getElementById("NombreCliente").value = "";
+                document.getElementById("ApellidoCliente").value = "";
+                document.getElementById("Dni").value = "";
+                document.getElementById("Saldo").value = "";
 
                 $('#error').empty();
                 $('#error').attr("hidden", true);
                 $('#modalAgregarClientes').modal('hide');
-
                 ObtenerClientes();
-            }
-            else {
-                mensajeerror('#errorCliente', data)
+            } else {
+                mensajeerror('#error', data);
             }
         })
         .catch(error => console.log("Hubo un error al agregar un Cliente nuevo, verifique el mensaje de error:", error));
@@ -112,7 +120,6 @@ function EliminarClienteSi(id) {
         .catch(error => console.error("No se puede acceder a la api, verifique el mensaje de error:", error))
 }
 
-
 function BuscarClienteId(id) {
     fetch(`https://localhost:7245/Clientes/${id}`, {
         method: "GET"
@@ -133,6 +140,38 @@ function BuscarClienteId(id) {
 function EditarClientes() {
     let idCliente = document.getElementById("IdCliente").value;
 
+    var nombreCliente = document.getElementById("NombreClienteEditar").value;
+    if (nombreCliente == "" || nombreCliente == null) {
+        return mensajeerror('#errorEditar', null, "Por favor ingrese un Nombre.");
+    }
+    if (nombreCliente.length < 3 || nombreCliente.length > 100) {
+        return mensajeerror('#errorEditar', null, "El Nombre debe contener entre 3 y 100 caracteres.");
+    }
+    if (!/^[A-Z]/.test(nombreCliente)) {
+        return mensajeerror('#errorEditar', null, "El Nombre debe comenzar con una letra mayúscula.");
+    }
+
+    var apellidoCliente = document.getElementById("ApellidoClienteEditar").value;
+    if (apellidoCliente == "" || apellidoCliente == null) {
+        return mensajeerror('#errorEditar', null, "Por favor ingrese un Apellido.");
+    }
+    if (apellidoCliente.length < 3 || apellidoCliente.length > 100) {
+        return mensajeerror('#errorEditar', null, "El Apellido debe contener entre 3 y 100 caracteres.");
+    }
+    if (!/^[A-Z]/.test(apellidoCliente)) {
+        return mensajeerror('#errorEditar', null, "El Apellido debe comenzar con una letra mayúscula.");
+    }
+
+    var dnicliente = document.getElementById("DniEditar").value;
+    if (dnicliente == "" || dnicliente == null || !/^\d{8}$/.test(dnicliente)) {
+        return mensajeerror('#errorEditar', null, "Por favor ingrese un DNI de 8 digitos.");
+    }
+
+    var saldocliente = document.getElementById("SaldoEditar").value;
+    if (saldocliente == "" || saldocliente == null) {
+        return mensajeerror('#errorEditar', null, "Por favor ingrese un Saldo.");
+    }
+
     let editarCliente = {
         id: idCliente,
         nombreCliente: document.getElementById("NombreClienteEditar").value,
@@ -148,22 +187,20 @@ function EditarClientes() {
         },
         body: JSON.stringify(editarCliente)
     })
-        .then(data => {
-            if (data.status == undefined || data.status == 204) {
-                document.getElementById("IdCliente").value = 0;
-                document.getElementById("NombreClienteEditar").value = "";
-                document.getElementById("ApellidoClienteEditar").value = "";
-                document.getElementById("DniEditar").value = 0;
-                document.getElementById("SaldoEditar").value = 0;
 
-                $('#error').empty();
-                $('#error').attr("hidden", true);
-                $('#modal').modal('hide');
-                ObtenerClientes();
-            }
-            else {
-                mensajeerror('#error', data);
-            }
+        .then(data => {
+
+            document.getElementById("IdCliente").value = 0;
+            document.getElementById("NombreClienteEditar").value = "";
+            document.getElementById("ApellidoClienteEditar").value = "";
+            document.getElementById("DniEditar").value = 0;
+            document.getElementById("SaldoEditar").value = 0;
+
+            $('#errorEditar').empty();
+            $('#errorEditar').attr("hidden", true);
+            $('#modalEditarClientes').modal('hide');
+            ObtenerClientes();
+
         })
         .catch(error => console.error("No se pudo acceder a la api, verifique el mensaje de error: ", error))
 }
@@ -171,7 +208,7 @@ function EditarClientes() {
 function mensajeerror(id, data, mensaje) {
     $(id).empty();
     if (data != null) {
-        $.each(data.errors, function (cliente, item) {
+        $.each(data.errors, function (clientes, item) {
             $(id).append(
                 "<ol>",
                 "<li>" + item + "</li>",

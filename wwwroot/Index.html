@@ -58,8 +58,6 @@
     </table>
 
 
-
-
     <!-- MODAL -->
     <div id="modalAgregarProductos" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
       <div class="modal-dialog">
@@ -70,17 +68,19 @@
           <div class="modal-body">
             <div class="row">
               <label for="Nombre" class="form-label">Nombre</label>
-              <input type="text" id="Nombre" placeholder="Nombre del Producto" class="form-control">
+              <input type="text" id="Nombre" placeholder="Ingresar Nombre del Producto" class="form-control">
 
               <label for="Cantidad" class="form-label">Cantidad</label>
-              <input type="number" id="Cantidad" class="form-control">
+              <input type="number" id="Cantidad" placeholder="Ingresar Cantidad de Producto" class="form-control">
 
               <label for="PrecioVenta" class="form-label">Precio Venta</label>
-              <input type="number" id="PrecioVenta" class="form-control">
+              <input type="number" id="PrecioVenta" placeholder="Ingresar Precio de Venta del Producto"
+                class="form-control">
 
               <label for="PrecioCompra" class="form-label">Precio Compra</label>
-              <input type="number" id="PrecioCompra" class="form-control">
-              <p id="error" hidden style="color: red;"></p>
+              <input type="number" id="PrecioCompra" placeholder="Ingresar Precio de Compra del Producto"
+                class="form-control">
+              <p id="error" hidden></p>
             </div>
           </div>
           <div class="modal-footer">
@@ -104,16 +104,21 @@
               <input type="number" id="IdProducto" class="form-control" readonly hidden>
 
               <label for="NombreEditar" class="form-label">Nombre</label>
-              <input type="text" id="NombreEditar" placeholder="Nombre del Alumno" class="form-control">
+              <input type="text" id="NombreEditar" placeholder="Ingresar Nombre del Producto" class="form-control">
 
               <label for="CantidadEditar" class="form-label">Cantidad</label>
-              <input type="number" id="CantidadEditar" class="form-control">
+              <input type="number" id="CantidadEditar" placeholder="Ingresar Cantidad de Producto" class="form-control">
 
               <label for="PrecioVentaEditar" class="form-label">Precio Venta</label>
-              <input type="number" id="PrecioVentaEditar" class="form-control">
+              <input type="number" id="PrecioVentaEditar" placeholder="Ingresar Precio de Venta del Producto"
+                class="form-control">
 
               <label for="PrecioCompraEditar" class="form-label">Precio Compra</label>
-              <input type="number" id="PrecioCompraEditar" class="form-control">
+              <input type="number" id="PrecioCompraEditar" placeholder="Ingresar Precio de Compra del Producto"
+                class="form-control">
+
+              <p id="errorEditar" hidden></p>
+
             </div>
           </div>
           <div class="modal-footer">
@@ -124,8 +129,6 @@
       </div>
     </div>
   </div>
-
-
 
 
   <script src="./js/productos.js"></script>
