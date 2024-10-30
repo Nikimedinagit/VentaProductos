@@ -9,7 +9,7 @@ using VentaProductos.Models;
 
 namespace VentaProductos.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class DetallesVentasController : ControllerBase
     {
@@ -21,24 +21,20 @@ namespace VentaProductos.Controllers
         }
 
         // GET: api/DetallesVentas
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<DetalleVenta>>> GetDetalleVenta()
-        {
-            return await _context.DetalleVenta.ToListAsync();
-        }
-
-        // GET: api/DetallesVentas/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<DetalleVenta>> GetDetalleVenta(int id)
+        public async Task<ActionResult<List<DetalleVenta>>> GetDetalleVenta(int id)
         {
-            var detalleVenta = await _context.DetalleVenta.FindAsync(id);
+            var ventaDetalle = await _context.DetalleVenta
+                .Include(x => x.Producto)
+                .Where(x => x.VentaId == id)
+                .ToListAsync();
 
-            if (detalleVenta == null)
+            if (ventaDetalle == null)
             {
                 return NotFound();
             }
 
-            return detalleVenta;
+            return ventaDetalle;
         }
 
         // PUT: api/DetallesVentas/5

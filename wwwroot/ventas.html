@@ -42,7 +42,7 @@
         <hr>
 
         <button class="mt-3 mb-3 btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAgregarVentas">Agregar
-            Venta</button>
+            Ventas</button>
 
         <table class="table table-dark table-striped">
             <thead>
@@ -53,6 +53,8 @@
                     <th>Cliente</th>
                     <th></th>
                     <th></th>
+                    <th></th>
+
                 </tr>
             </thead>
             <tbody id="todasLasVentas"></tbody>
@@ -63,117 +65,126 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Agregar Nueva Ventas</h5>
+                        <h5 class="modal-title">Agregar Nueva Venta</h5>
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <label for="fechaVenta">Fecha de Venta</label>
-                            <input type="datetime-local" id="fechaVenta" class="form-control">
+                            <label for="Fecha" class="form-label">Fecha Venta</label>
+                            <input type="datetime-local" id="Fecha" class="form-control">
 
-                            <label for="clienteId">Cliente</label>
-                            <select id="clienteId" class="form-control"></select>
+                            <label for="Finalizada" class="form-label">Finalizada</label>
+                            <input type="checkbox" id="Finalizada" class="form-control">
 
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="ventaFinalizada">
-                                <label class="form-check-label" for="ventaFinalizada">Finalizada</label>
+                            <label for="ClienteId" class="form-label">Cliente</label>
+                            <select id="ClienteId" class="form-control"></select>
 
-                            </div>
                             <p id="error" hidden></p>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-primary" onclick="CrearVenta();">Guardar</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" onclick="CrearVenta();">Guardar</button>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- MODAL -->
-            <div id="modalEditarVentas" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Editar Ventas Existentes</h5>
+        <!-- MODAL -->
+        <div id="modalEditarVentas" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Editar Ventas Existente</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <input type="number" id="IdVentas" class="form-control" readonly hidden>
+
+                            <label for="FechaEditar" class="form-label">Fecha Venta</label>
+                            <input type="datetime-local" id="FechaEditar" class="form-control">
+
+                            <label for="FinalizadaEditar" class="form-label">Finalizada</label>
+                            <input type="checkbox" id="FinalizadaEditar" class="form-control">
+
+                            <label for="ClienteIdEditar" class="form-label">Cliente</label>
+                            <select id="ClienteIdEditar" class="form-control"></select>
+                            <div id="mensaje"></div>
+                            <p id="errorEditar" hidden></p>
                         </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <input type="hidden" id="ventaIdEditar">
-
-                                <label for="fechaVentaEditar">Fecha de Venta:</label>
-                                <input type="datetime" id="fechaVentaEditar" class="form-control">
-
-                                <label for="clienteIdEditar">Cliente:</label>
-                                <select id="clienteIdEditar" class="form-control"></select>
-
-                                <label for="ventaFinalizadaEditar">Finalizada:</label>
-                                <input type="checkbox" id="ventaFinalizadaEditar" class="form-check-input">
-
-                                <p id="errorEditar" hidden></p>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-primary" onclick="CrearVenta();">Guardar</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" onclick="EditarVenta();">Guardar</button>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div id="modalDetalleVentas" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Detalle de una Venta</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <input type="number" id="IdDetalleVentas" class="form-control" readonly hidden>
 
 
+                            <label for="ProductosIdDetalle" class="form-label">Producto</label>
+                            <select id="ProductosIdDetalle" class="form-control"></select>
 
-            <!-- MODAL -->
-            <div id="" class="modal fade" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title"></h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <input type="number" id="IdVenta" class="form-control" readonly hidden>
 
-                                <label for="productoId">Producto</label>
-                                <select id="productoId" class="form-control"></select>
-
-                                <label for="cantidadProducto">Cantidad</label>
-                                <input type="number" id="cantidadProducto" class="form-control">
-
-                                <button type="button" class="btn btn-primary mt-3" onclick="agregarDetalle()">Agregar
-                                    Detalle</button>
-
-                                <table class="table table-dark table-striped mt-4">
-                                    <thead>
-                                        <tr>
-                                            <th>Producto</th>
-                                            <th>Cantidad</th>
-                                            <th></th>
-                                            <th></th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody id="listaDetallesVenta"></tbody>
-                                </table>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <div class="text-center mt-3">
+                                <button type="button" class="btn btn-primary"
+                                    onclick="GuardarDetalle();">Guardar</button>
                             </div>
 
+                            <p id="errorDetalle" hidden></p>
                         </div>
+
+
+                        <div class="table-responsive mt-3">
+                            <table class="table table-dark table-striped text-center">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Producto</th>
+                                        <!--  <th>Cantidad</th>
+                                        <th>Precio Unitario</th>
+                                        <th>Total</th> -->
+
+                                    </tr>
+                                </thead>
+                                <tbody id="todosLosDetalles"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Salir</button>
                     </div>
                 </div>
             </div>
-
         </div>
 
 
+    </div>
 
-        <script src="js/ventas.js"></script>
-        <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-        <script src="js/common/obtenerClientesDropDown.js"></script>
-        <script type="text/javascript">
-            window.onload = ObtenerVentas();
-            window.onload = ObtenerClientesDropDown();
-        </script>
+
+    <script src="./js/ventas.js"></script>
+    <script src="js/common/obtenerProductosDropDown.js"></script>
+    <script src="js/common/obtenerClientesDropDown.js"></script>
+    <script src="./lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        window.onload = ObtenerVentas();
+        window.onload = ObtenerClientesDropDown();
+        window.onload = ObtenerProductosDropdown();
+
+    </script>
 </body>
 
 </html>
