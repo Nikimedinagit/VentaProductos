@@ -131,6 +131,7 @@ function EliminarSi(id) {
         {
             method: "DELETE"
         })
+
         .then(() => {
             ObtenerProductos();
         })

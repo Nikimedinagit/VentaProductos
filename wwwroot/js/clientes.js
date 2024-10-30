@@ -117,7 +117,9 @@ function EliminarClienteSi(id) {
         .then(() => {
             ObtenerClientes();
         })
-        .catch(error => console.error("No se puede acceder a la api, verifique el mensaje de error:", error))
+        .catch(error => {
+            console.error("No se pudo acceder a la api, verifique el mensaje de error: ", error)
+        })
 }
 
 function BuscarClienteId(id) {
